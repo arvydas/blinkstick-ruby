@@ -33,3 +33,26 @@ Running examples:
 ```sh
 ruby example-info.py
 ```
+
+Permission problems
+-------------------
+
+If the script returns with an error
+
+```sh
+LIBUSB::ERROR_ACCESS in libusb_open
+```
+
+You can either run the script with sudo, for example:
+
+```sh
+sudo ruby example-info.rb
+```
+
+Or you can add a udev rule to allow any user to access the device without root permissions with this single command:
+
+```sh
+echo "SUBSYSTEM==\"usb\", ATTR{idVendor}==\"20a0\", ATTR{idProduct}==\"41e5\", MODE:=\"0666\" | sudo tee /etc/udev/rules.d/85-blinkstick.rules"
+```
+
+Reboot computer after you have added the command and all users will have permissions to access the device without the need of root permissions.
