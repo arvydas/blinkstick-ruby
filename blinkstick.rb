@@ -109,6 +109,6 @@ class BlinkStick
   end
 
   def info_block2=(value)
-    set_info_block(1, value)
+    set_info_block(2, value)
   end
 end
