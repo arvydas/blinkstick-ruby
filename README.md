@@ -28,14 +28,29 @@ Description of files:
 
 * blinkstick.rb - main BlinkStick class definition
 * example-info.rb - displays information of each BlinkStick
-* example-infoblock.rb - read/write info block sample 
+* example-infoblock.rb - read/write info block sample
 * example-off.rb - turn all blinksticks off
 * example-random.rb - set random color to all blinksticks
 
 Running examples:
 
 ```sh
-ruby example-info.py
+ruby examples/example-info.rb
+```
+
+Usage
+-----
+
+Add gem "blinkstick" to your Gemfile.
+```gem "blinkstick"```
+
+```
+require "blinkstick"
+
+BlinkStick.find_all.each { | b |
+  b.random_color
+  puts b.serial + ": " + b.color.html
+}
 ```
 
 Permission problems
