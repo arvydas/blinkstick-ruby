@@ -55,6 +55,14 @@ class BlinkStick
     Color::RGB.new(result[1].ord, result[2].ord, result[3].ord)
   end
 
+  def set_color(channel, index, value)
+    @handle.control_transfer(:bmRequestType => 0x20,
+                             :bRequest => 0x9,
+                             :wValue => 0x5,
+                             :wIndex => 0x0000,
+                             :dataOut => 1.chr + channel.to_i.chr + index.to_i.chr + value.red.to_i.chr + value.green.to_i.chr + value.blue.to_i.chr)
+  end
+
   def off
     self.color = Color::RGB.new(0, 0, 0)
   end
