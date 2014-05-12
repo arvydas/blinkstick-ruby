@@ -49,7 +49,7 @@ while true
 
   first = false
 
-  #sleep(0.002)
+  sleep(0.02)
 end
 #(0..options[:leds].to_i - 1).each { | i |
 #  if i > 0
