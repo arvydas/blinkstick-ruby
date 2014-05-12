@@ -68,6 +68,9 @@ class BlinkStick
                                  :dataOut => 1.chr + channel.to_i.chr + index.to_i.chr + value.red.to_i.chr + value.green.to_i.chr + value.blue.to_i.chr)
         break
       rescue
+        if attempts == 5
+          raise
+        end
       end
     end
   end
@@ -115,6 +118,9 @@ class BlinkStick
                                  :dataOut => report)
         break
       rescue
+        if attempts == 5
+          raise
+        end
       end
     end
   end
