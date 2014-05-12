@@ -63,6 +63,44 @@ class BlinkStick
                              :dataOut => 1.chr + channel.to_i.chr + index.to_i.chr + value.red.to_i.chr + value.green.to_i.chr + value.blue.to_i.chr)
   end
 
+  def set_colors(channel, data)
+    report_id = 9
+    max_leds = 64
+
+    if data.size <= 8 * 3
+        max_leds = 8
+        report_id = 6
+    elsif data.size <= 16 * 3
+        max_leds = 16
+        report_id = 7
+    elsif data.size <= 32 * 3
+        max_leds = 32
+        report_id = 8
+    elsif data.size <= 64 * 3
+        max_leds = 64
+        report_id = 9
+    end
+
+    report = report_id.chr + channel.to_i.chr
+
+    (0..max_leds * 3 - 1).each do | i |
+      if data.size > i
+        report += data[i].to_i.chr
+      else
+        report += 0.chr
+      end
+    end
+
+    #Debug code
+    #puts report.unpack('U'*report.length).collect {|x| x.to_s 16}.join(" ")
+
+    @handle.control_transfer(:bmRequestType => 0x20,
+                             :bRequest => 0x9,
+                             :wValue => report_id,
+                             :wIndex => 0,
+                             :dataOut => report)
+  end
+
   def off
     self.color = Color::RGB.new(0, 0, 0)
   end
