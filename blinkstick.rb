@@ -56,11 +56,20 @@ class BlinkStick
   end
 
   def set_color(channel, index, value)
-    @handle.control_transfer(:bmRequestType => 0x20,
-                             :bRequest => 0x9,
-                             :wValue => 0x5,
-                             :wIndex => 0x0000,
-                             :dataOut => 1.chr + channel.to_i.chr + index.to_i.chr + value.red.to_i.chr + value.green.to_i.chr + value.blue.to_i.chr)
+    attempts = 0
+    while attempts < 5
+      attempts += 1
+
+      begin
+        @handle.control_transfer(:bmRequestType => 0x20,
+                                 :bRequest => 0x9,
+                                 :wValue => 0x5,
+                                 :wIndex => 0x0000,
+                                 :dataOut => 1.chr + channel.to_i.chr + index.to_i.chr + value.red.to_i.chr + value.green.to_i.chr + value.blue.to_i.chr)
+        break
+      rescue
+      end
+    end
   end
 
   def set_colors(channel, data)
@@ -94,11 +103,20 @@ class BlinkStick
     #Debug code
     #puts report.unpack('U'*report.length).collect {|x| x.to_s 16}.join(" ")
 
-    @handle.control_transfer(:bmRequestType => 0x20,
-                             :bRequest => 0x9,
-                             :wValue => report_id,
-                             :wIndex => 0,
-                             :dataOut => report)
+    attempts = 0
+    while attempts < 5
+      attempts += 1
+
+      begin
+        @handle.control_transfer(:bmRequestType => 0x20,
+                                 :bRequest => 0x9,
+                                 :wValue => report_id,
+                                 :wIndex => 0,
+                                 :dataOut => report)
+        break
+      rescue
+      end
+    end
   end
 
   def off
