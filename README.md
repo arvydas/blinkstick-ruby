@@ -35,7 +35,7 @@ Description of files:
 Running examples:
 
 ```sh
-ruby example-info.py
+ruby example-info.rb
 ```
 
 Permission problems
